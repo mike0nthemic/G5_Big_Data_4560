@@ -4,8 +4,9 @@ $ssh yourusername@ipaddress
 
 2. Download the file using wget 
 
-wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1NP3feB6JvFAlv4rnatskW5047cedEI8C
-' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1NP3feB6JvFAlv4rnatskW5047cedEI8C" -O coviddata.csv && rm -rf /tmp/cookies.txt
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 
+'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1s-9aKPqcQq8id8oGgW6HBCQzuXKBR1xO" -O covid19data.csv && rm -rf /tmp/cookies.txt
+
 
 3.You have to upload the files to hdfs folder coviddata. Run the following HDFS commands to create and list coviddata directory in HDFS:
 

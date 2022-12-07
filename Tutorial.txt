@@ -1,0 +1,163 @@
+﻿Authors: 
+Instructor: Jongwook Woo
+Date: 12/7/2022
+
+
+
+
+Lab Tutorial
+[Add names here (email here too)]
+12/7/2022
+
+
+
+
+Covid 19 Surveillance Data
+
+
+
+
+Objectives:
+In this hand-on lab, you will learn how to:
+* Import data
+* Analyze data
+* Query data
+* Visualize data
+
+
+
+
+Platform Specifications:
+* Oracle Cloud 
+* CPU Speed: 1995. 309 MHz:
+* # of CPU Cores: 32
+* # of nodes: 3
+* Total Memory Size: 58GB
+
+
+
+
+1. open a shell terminal – git bash, minty, putty etc- and run the ssh command to connect to the Hadoop Cloud. 
+
+
+
+
+$ssh yourusername@ipaddress
+
+
+
+
+
+
+
+
+2. Download the file using wget 
+
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1NP3feB6JvFAlv4rnatskW5047cedEI8C
+' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1NP3feB6JvFAlv4rnatskW5047cedEI8C" -O coviddata.csv && rm -rf /tmp/cookies.txt
+	
+
+  
+
+
+
+3.You have to upload the files to hdfs folder coviddata. Run the following HDFS commands to create and list coviddata directory in HDFS:
+
+
+$ hdfs dfs -mkdir tmp/covid19data
+$ hdfs dfs -put covid19data.csv tmp/covid19data/
+	
+
+4.open hive 
+
+
+$ beeline
+	
+
+5. Create your own database and use that database 
+
+
+$ create database Covid19;
+$ use database Covid19;
+	
+
+6. Create external table “Covid19Data”
+
+
+- - create the covid19 table on comma-seperated covid19data 
+create external table if not exists Covid19 (case_months string, 
+res_state string, 
+state_fips_code string, 
+res_country string, 
+county_fips_county string,
+age_group string,  
+sex string, 
+race string, 
+ethnicity string, 
+case_positive_specimen_interval int, 
+case_onset_interval int, 
+process string, 
+exposure_yn string, 
+current_status string, 
+symptom_status string, 
+hosp_yn string, 
+icu_yn string, 
+death_yn string, 
+underlying_conditions_yn string) 
+row format delimited fields terminated by ","
+stored as textfile location '/user/tfong9/tmp/covid19data'
+tblproperties ('skip.header.line.count' = '1');
+	
+
+Now run the following HiveQL at the query editor to see how the dataset looks like
+select * from covid19 limit 10;
+	  
+
+7.create external table “patient_profile”
+
+
+- - create the patient_profile table on comma-seperated covid19data 
+CREATE EXTERNAL TABLE IF NOT EXISTS patient_profile(age_group STRING, sex STRING, race STRING, ethnicity STRING, res_state STRING, underlying_conditions STRING)
+row format delimited fields terminated by ","
+STORED AS TEXTFILE LOCATION '/user/tfong9/tmp/covid19data';
+
+
+insert overwrite table patient_profile 
+select age_group, sex, race, ethnicity, res_state, underlying_conditions_yn
+from covid19;
+
+
+	
+
+Now run the following HiveQL at the query editor to see how the dataset looks like
+Select * from patient_profile limit 10;
+	  
+
+8. Now run the following HiveQL at the Query editor to see the number of cases
+
+
+select case_months, count(sex) as number_of_cases 
+from covid19
+group by case_months;
+	  
+
+9. Now download data ito your PC
+
+
+- - download to local file
+hdfs dfs -get tmp/covid19data/000000_0
+- - download file to your PC
+scp tfong9@144.24.14.145:/home/tfong9/000000_0 covid19data.csv  
+	
+
+10. Loading Data into and Visualizing using Power Map in Excel
+
+
+Create column names for each column 
+
+
+Open up 3d maps 
+  
+
+You need to select the properties and values in the layer as follows.

@@ -1,0 +1,13 @@
+This paper explains the method and processes we
+used to determine the average age range, people who had 
+underlying conditions and how they reacted, the mortality 
+rate in the United States from those that had contracted 
+COVID-19 in each state, and to see if there a large difference 
+between both genders in death rates. By looking at 
+characteristics and demographics like a person’s age, health, 
+and sex we can understand the severity of COVID-19 
+throughout the United States. Our research paper focuses on 
+how we handle this big data set using Hadoop and beeline. 
+Along with that, we have also analyzed the data visually
+using the tools Excel and Power BI. From these tools we will 
+have created map visualizations and different types of charts..
